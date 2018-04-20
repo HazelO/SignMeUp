@@ -2,6 +2,7 @@ package com.example.hazel.signmeup;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
     EditText legalName, email, userName, age;
     Button dob, submit;
     DatePickerDialog pickDOB;
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_main);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     age = Integer.parseInt(s.toString());
                 } catch (NumberFormatException ignored) {
-                    Toast toast = new Toast(MainActivity.this);
-                    toast.setText("Please enter correct age in digits");
-                    toast.show();
+                    Toast.makeText(MainActivity.this, "Please enter correct age in digits", Toast.LENGTH_SHORT).show();
                 }
 
                 if (age < MIN_AGE) {
@@ -73,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                             dob.setText(month+ "/" + dayOfMonth + "/" + year);
-
+                            //TODO check the current date and compare with selected date
+                            //TODO replace this simple logic below
                             if (year >= 2000) {
                                 submit.setEnabled(false);
                             } else {
